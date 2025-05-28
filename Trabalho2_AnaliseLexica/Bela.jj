@@ -1,0 +1,113 @@
+PARSER_BEGIN(Bela)
+import java.io.*;
+public class Bela {
+
+  public static void main(String args[]) throws ParseException,IOException {
+    
+ 	Bela analisador = new Bela(new FileInputStream(args[0]));
+ 	analisador.Bela();
+  }
+
+}
+
+PARSER_END(Bela)
+
+SKIP :
+{
+  " "
+| "\t"
+| "\n"
+| "\r"
+}
+
+TOKEN :
+{
+  <MAIN: "main">
+| <VAR: "var">
+| <APAR: "(">
+| <FPAR: ")">  
+| <ACHAVES: "{">
+| <FCHAVES: "}">
+| <TFLOAT: "float">
+| <TBOOL: "bool">
+| <TVOID: "void">
+| <ATRIBUICAO: "=">
+| <PONTOVIRGULA: ";">
+| <IF: "if">
+| <THEN: "then">
+| <WHILE: "while">
+| <READINPUT: "readInput">
+| <RETURN: "return">
+| <PRINTLN: "printLn">
+| <TRUE: "true">
+| <FALSE: "false">
+| <OPADI: "+">
+| <OPSUB: "-">
+| <OPMULT: "*">
+| <OPDIV: "/">
+| <OPAND: "&&">
+| <OPOR: "||">
+| <OPMENOR: "<">
+| <OPMAIOR: ">">
+| <OPIGUAL: "==">
+| <VIRGULA: ",">
+| <FUNC: "fun">
+
+}
+
+TOKEN :
+{
+  <NUM : (["0"-"9"])+ ("."(["0"-"9"])+)? ("E"(["+", "-"])? (["0"-"9"])+)?>
+ |< ID: ["a"-"z","A"-"Z"] ( ["a"-"z","A"-"Z","0"-"9"])* ("_"(["a"-"z","A"-"Z","0"-"9"])+)*>
+
+}
+
+
+
+void Bela () :
+{Token t;}
+{
+
+(
+  <MAIN> { System.out.println("Palavra reservada: main");}
+| <VAR> { System.out.println("Palavra reservada: var");}
+| <APAR> { System.out.println("Abre parenteses: (");}
+| <FPAR> { System.out.println("Fecha parenteses: )");}
+| <ACHAVES> { System.out.println("Abre chaves: {");}
+| <FCHAVES> { System.out.println("Fecha chaves: }");}  
+| t=<NUM> { System.out.println("Número: "+ t.image);}
+| t=<ID> { System.out.println("Identificador: "+ t.image);}
+| <TFLOAT> { System.out.println("Palavra reservada: float");}
+| <TBOOL> { System.out.println("Palavra reservada: bool");}
+| <TVOID> { System.out.println("Palavra reservada: void");}
+| <ATRIBUICAO> { System.out.println("Atribuição: =");}
+| <PONTOVIRGULA> { System.out.println("Ponto e vírgula: ;");}
+| <IF> { System.out.println("Palavra reservada: if");}
+| <THEN> { System.out.println("Palavra reservada: then");}
+| <WHILE> { System.out.println("Palavra reservada: while");}
+| <READINPUT> { System.out.println("Palavra reservada: readInput");}
+| <RETURN> { System.out.println("Palavra reservada: return");}
+| <PRINTLN> { System.out.println("Palavra reservada: printLn");}
+| <TRUE> { System.out.println("Palavra reservada: true");}
+| <FALSE> { System.out.println("Palavra reservada: false");}
+| <OPADI> { System.out.println("Adição: +");}
+| <OPSUB> { System.out.println("Subtração: -");}
+| <OPMULT> { System.out.println("Multiplicação: *");}
+| <OPDIV> { System.out.println("Divisão: /");}
+| <OPAND> { System.out.println("AND: &&");}
+| <OPOR> { System.out.println("OR: ||");}
+| <OPMENOR> { System.out.println("menor que: <");}
+| <OPMAIOR> { System.out.println("Maior que: >");}
+| <OPIGUAL> { System.out.println("Igual: ==");}
+| <VIRGULA> { System.out.println("Vírgula: ,");}
+| <FUNC> { System.out.println("Palavra reservada: fun");}
+)*
+<EOF> 
+
+
+}
+
+
+
+
+

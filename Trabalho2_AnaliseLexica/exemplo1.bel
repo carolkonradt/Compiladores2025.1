@@ -1,0 +1,14 @@
+main () {
+    var float valor_1;
+    var float valor_2;
+    var soma_ao_2;
+    soma_ao_2 = 1.0;
+
+    if valor_1 > valor_2 then{
+        printLn valor_1;
+    }
+    while valor_2 < valor_1{
+        valor_2 = valor_2 + soma_ao_2;
+    }
+    return valor_2;
+}
