@@ -1,0 +1,172 @@
+PARSER_BEGIN(Bela)
+import java.io.*;
+public class Bela {
+
+  public static void main(String args[]) throws ParseException,IOException {
+    
+ 	Bela analisador = new Bela(new FileInputStream(args[0]));
+ 	analisador.Bela();
+  }
+
+}
+
+PARSER_END(Bela)
+
+SKIP :
+{
+  " "
+| "\t"
+| "\n"
+| "\r"
+}
+
+TOKEN :
+{
+  <MAIN: "main">
+| <VAR: "var">
+| <APAR: "(">
+| <FPAR: ")">  
+| <ACHAVES: "{">
+| <FCHAVES: "}">
+| <TFLOAT: "float">
+| <TBOOL: "bool">
+| <TVOID: "void">
+| <ATRIBUICAO: "=">
+| <PONTOVIRGULA: ";">
+| <IF: "if">
+| <THEN: "then">
+| <WHILE: "while">
+| <READINPUT: "readInput">
+| <RETURN: "return">
+| <PRINTLN: "printLn">
+| <TRUE: "true">
+| <FALSE: "false">
+| <OPADI: "+">
+| <OPSUB: "-">
+| <OPMULT: "*">
+| <OPDIV: "/">
+| <OPAND: "&&">
+| <OPOR: "||">
+| <OPMENOR: "<">
+| <OPMAIOR: ">">
+| <OPIGUAL: "==">
+| <VIRGULA: ",">
+| <FUNC: "fun">
+
+}
+
+TOKEN :
+{
+  <NUM : (["0"-"9"])+ ("."(["0"-"9"])+)? ("E"(["+", "-"])? (["0"-"9"])+)?>
+ |< ID: ["a"-"z","A"-"Z"] ( ["a"-"z","A"-"Z","0"-"9"])* ("_"(["a"-"z","A"-"Z","0"-"9"])+)*>
+
+}
+
+//BELA -> MAIN FUNC?
+
+void Bela () :
+{}
+{
+Main() (Func())?
+<EOF> 
+}
+
+
+void Main () :
+{}
+{
+<MAIN> <APAR> <FPAR> <ACHAVES> Vardecl() Seqcomandos() <FCHAVES>
+}
+
+
+void Vardecl () :
+{}
+{
+( <VAR> Tipo() <ID> <PONTOVIRGULA> )*
+}
+
+void Seqcomandos () :
+{}
+{
+( (Comando())* )
+
+}
+
+void Tipo () :
+{}
+{
+(<TFLOAT> | <TBOOL> | <TVOID>)
+}
+
+
+void Comando () :
+{}
+{
+( <ID> ComandoL() 
+| <IF> Exp() <THEN> <ACHAVES> Seqcomandos() <FCHAVES> <PONTOVIRGULA>
+| <WHILE> Exp() <ACHAVES> Seqcomandos() <FCHAVES> <PONTOVIRGULA>
+| <RETURN> Exp() <PONTOVIRGULA>
+| <PRINTLN> Exp() <PONTOVIRGULA>)
+}
+
+
+void ComandoL () :
+{}
+{
+(<ATRIBUICAO> ComandoLL() | <APAR> (ListaExp())? <FPAR> <PONTOVIRGULA>)
+}
+
+void ComandoLL () :
+{}
+{
+(Exp() <PONTOVIRGULA> | <READINPUT> <APAR> <FPAR> <PONTOVIRGULA>)
+}
+
+void Op () :
+{}
+{
+(<OPADI> | <OPSUB> | <OPMULT> | <OPDIV> | <OPAND> | <OPOR> | <OPMENOR> | <OPMAIOR> | <OPIGUAL>)
+}
+
+void Fator () :
+{}
+{
+( <ID> (<APAR> (ListaExp())?<FPAR>)? | <NUM> | <TRUE> | <FALSE> )
+}
+
+void Exp() :
+{}
+{
+(<APAR> Exp() Op() Exp() <FPAR> | Fator() )
+}
+
+void ListaExp() :
+{}
+{
+( Exp() ListaExpL() )
+}
+
+void ListaExpL() :
+{}
+{
+( (<VIRGULA> Exp())* )
+}
+
+void Func() :
+{}
+{
+( (<FUNC> Tipo() <ID> <APAR> (ListaArg())? <FPAR> <ACHAVES> Vardecl() Seqcomandos() <FCHAVES>)+ )
+}
+
+
+void ListaArg() :
+{}
+{
+( Tipo() <ID> ListaArgL())
+}
+
+void ListaArgL() :
+{}
+{
+( (<VIRGULA> Tipo() <ID>)*)
+}

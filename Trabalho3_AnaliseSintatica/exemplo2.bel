@@ -1,0 +1,20 @@
+main () {
+    var float val_exp;
+    var float valor;
+    var float resultado;
+    var bool teste;
+    
+    val_exp = 7.65E-2;
+    valor = 3.456;
+
+    resultado = (valor / val_exp);
+    resultado = (resultado - valor);
+
+    if (resultado > valor) then{
+        teste = true;
+    };
+
+    if (resultado < valor) then{
+        teste = false;
+    };
+}
