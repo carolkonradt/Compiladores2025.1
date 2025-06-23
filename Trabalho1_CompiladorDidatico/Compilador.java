@@ -13,8 +13,11 @@ class Compilador{
 		
 			
 			CodeGen backend = new CodeGen();
-			String codigo = backend.geraCodigo(arv);
-			System.out.println(codigo);
+			backend.geraCodigo(arv, "output.txt");
+			System.out.println("Arquivo gerado com sucesso!");
+			//Interpreter interpretador = new Interpreter();
+			//int resultado = interpretador.interpreta(arv);
+			//System.out.println("Resultado da expressão: " + resultado);
 
 		}catch(Exception e)
 		{			

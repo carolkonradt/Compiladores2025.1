@@ -1,9 +1,19 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 class CodeGen{
 
-	
-	String geraCodigo (ArvoreSintatica arv)
+	void geraCodigo (ArvoreSintatica arv, String nomeArquivo) throws IOException
 	{
-		return (geraCodigo2(arv) + "PRINT");
+		String codigo = geraCodigo2(arv) + "PRINT";
+		escreverArquivo(nomeArquivo, codigo);
+	}
+
+	private void escreverArquivo(String nomeArquivo, String codigo) throws IOException{
+		try(BufferedWriter writer = new BufferedWriter(new FileWriter(nomeArquivo))) {
+			writer.write(codigo);
+		}
 	}
 	String geraCodigo2 (ArvoreSintatica arv)
 	{
