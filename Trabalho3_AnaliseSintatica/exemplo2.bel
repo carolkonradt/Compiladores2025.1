@@ -8,7 +8,7 @@ main () {
     valor = 3.456;
 
     resultado = (valor / val_exp);
-    resultado = (resultado - valor);
+    resultado = (resultado - valor)
 
     if (resultado > valor) then{
         teste = true;
