@@ -1,13 +1,21 @@
 PARSER_BEGIN(Bela)
 import java.io.*;
 import ast.*;
+import java.util.ArrayList;
 public class Bela {
 
   public static void main(String args[]) throws ParseException,IOException {
     
- 	Bela analisador = new Bela(new FileInputStream(args[0]));
- 	Prog arvore = analisador.Bela();
+    FileInputStream fs = new FileInputStream(new File(args[0]));
+    Bela parser = new Bela(fs);
+    Prog arvore = parser.Bela();
+    geraCodigo(arvore, args[0]);
+    
+  }
   
+  public static void geraCodigo(Prog prog, String file){
+    System.out.println("Código gerado para o arquivo " + file + ": ");
+    System.out.println(prog.toString());
   }
 
 }
@@ -67,7 +75,7 @@ TOKEN :
 //BELA -> MAIN FUNC?
 
 Prog Bela () :
-{Main main; ArrayList<Fun> funs= null; Fun f;}
+{Main main; ArrayList<Fun> funs= new ArrayList(); Fun f;}
 {
 main = Main() (f = Func() {funs.add(f);})?
 <EOF> 
@@ -92,7 +100,7 @@ ArrayList<VarDecl> Vardecl () :
   Token id;
 }
 {
-  ( <VAR> tipo=Tipo() id=<ID> <PONTOVIRGULA> {vars.add(new Vardecl(tipo.image, id.image));} )*
+  ( <VAR> tipo=Tipo() id=<ID> <PONTOVIRGULA> {vars.add(new VarDecl(tipo.image, id.image));} )*
   {return vars;}
 }
 
@@ -131,7 +139,7 @@ Comando Comando () :
   | <IF> exp = Exp() <THEN> <ACHAVES> bloco = Seqcomandos() <FCHAVES> <PONTOVIRGULA> {result = new CIf(0, exp, bloco);}
   | <WHILE> exp = Exp() <ACHAVES> bloco = Seqcomandos() <FCHAVES> <PONTOVIRGULA> {result = new CWhile(0, exp, bloco);}
   | <RETURN> exp = Exp() <PONTOVIRGULA> {result = new CReturn(0, exp);}
-  | <PRINTLN> exp = Exp() <PONTOVIRGULA> {result = new CPrint(0, exp, bloco);}
+  | <PRINTLN> exp = Exp() <PONTOVIRGULA> {result = new CPrint(0, exp);}
   )
   {return result;}
 }
@@ -156,7 +164,7 @@ Comando ComandoL (Token id) :
   {return result;}
 }
 
-Object ComandoLL () :
+Object ComandoLL (Token id) :
 {
   Exp exp = null;
 }
@@ -183,7 +191,7 @@ Token Op () :
   {return op;}
 }
 
-void Fator () :
+Exp Fator () :
 {
   Token id = null;
   Token num = null;
@@ -200,7 +208,7 @@ void Fator () :
   
 }
 
-void Exp() :
+Exp Exp() :
 { Exp arg1 = null, arg2 = null;
   Token op = null;
 }
@@ -229,7 +237,7 @@ void ListaExpL(ArrayList<Exp> exps) :
 ( (<VIRGULA> exp = Exp(){exps.add(exp);})* )
 }
 
-void Func() :
+Fun Func() :
 {
   Token name = null;
 	ArrayList<ParamFormalFun> params = new ArrayList();;
@@ -243,7 +251,7 @@ void Func() :
 }
 
 
-void ListaArg() :
+ArrayList<ParamFormalFun> ListaArg() :
 {
   ArrayList<ParamFormalFun> params = new ArrayList();
   Token id;

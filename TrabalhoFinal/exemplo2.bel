@@ -1,0 +1,18 @@
+main() {
+  var bool condicao;
+  var float contador;
+
+  condicao = true;
+  contador = 0.0;
+
+  while condicao {
+    printLn contador;
+    contador = (contador + 1.0);
+    if (contador < 5.0) then {
+      condicao = true;
+    };
+    if (contador == 5.0) then {
+      condicao = false;
+    };
+  };
+}

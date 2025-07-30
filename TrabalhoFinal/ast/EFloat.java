@@ -10,5 +10,9 @@ public class EFloat extends Exp{
 	  this.value = value;
 	  
 	} 
+	@Override
+   	public String toString(){
+      return String.valueOf(value); 
+   }
 
 }

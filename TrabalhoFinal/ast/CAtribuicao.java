@@ -11,6 +11,11 @@ public class CAtribuicao extends Comando{
 	  this.linha = linha;	
 	  this.var = var;
 	  this.exp = exp;
-	} 
+	}
+
+	@Override
+  	public String toString(){
+    	return var + " = " + exp.toString() + ";\n"; 
+   }
 
 }

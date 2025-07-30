@@ -1,0 +1,20 @@
+main () {
+    var float valor_1;
+    var float valor_2;
+    var bool result;
+
+    valor_1 = readInput();
+    valor_2 = readInput();
+
+    result = isGreater(valor_1, valor_2);
+    printLn result;
+}
+
+fun bool isGreater(float num1, float num2){
+    if (num1 > num2) then{
+        return true;
+    };
+    if (num2 > num1) then{
+        return false;
+    };
+}

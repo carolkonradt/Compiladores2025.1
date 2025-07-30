@@ -12,4 +12,9 @@ public class CReadInput extends Comando{
 	  this.var = var;
 	} 
 
+	@Override
+   	public String toString(){
+      return var + " = new java.util.Scanner(System.in).nextLine(); \n"; 
+   }
+
 }
